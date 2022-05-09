@@ -2,7 +2,7 @@ import { makeObservable, observable } from "mobx";
 
 class TodoItem {
   /*
-    id: number (고유값)
+    id: number (고유값) <- 특정하기 위한 고유값
     task: string (할 일)
     createdAt: Date (생성 된 날짜)
     completed: boolean (완료 여부)
@@ -12,11 +12,33 @@ class TodoItem {
   _createdAt = "";
   _completed = false;
 
-  constructor() {
+  constructor(id, task, createdAt, completed = false) {
     makeObservable(this, {
       _task: observable,
       _completed: observable,
     });
+    this._id = id;
+    this._task = task;
+    this._createdAt = new Date(createdAt);
+    this._completed = completed;
+  }
+
+  updateTask = (task) => {
+    this._task = task;
+  }
+
+  setComplete = () => {
+    this._completed = true;
+  }
+
+  unsetComplete = () => {
+    this._completed = false;
+  }
+
+  equalsDayOfCreatedAt = (_targetDate) => {
+    const sourceDate = new Date(this._createdAt).setHours(0, 0, 0, 0);
+    const targetDate = new Date(_targetDate).setHours(0, 0, 0, 0);
+    return sourceDate === targetDate
   }
 
   get id() {
