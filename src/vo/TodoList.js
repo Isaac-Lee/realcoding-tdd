@@ -34,7 +34,7 @@ class TodoList {
 
   _equalsDayAndCompletedFilter = (todoItem) => (todoItem.equalsDayOfCreatedAt(this._date) && todoItem.completed);
 
-  _notEqualsDayAndCompletedFilter = (todoItem) => (todoItem.equalsDayOfCreatedAt(this._date) && !todoItem.completed);
+  _equalsDayAndNotCompletedFilter = (todoItem) => (todoItem.equalsDayOfCreatedAt(this._date) && !todoItem.completed);
 
   get equalsDayItems() {
     return this._items.filter(this._equlalsDayFillter);
@@ -48,9 +48,8 @@ class TodoList {
     return this._items.filter(this._equalsDayAndCompletedFilter)
   }
 
-  get notEqualsDayAndCompletedItems() {
-    return this._items.filter(this._notEqualsDayAndCompletedFilter)
-  }
+  get equalsDayAndNotCompletedItems() {
+    return this._items.filter(this._equalsDayAndNotCompletedFilter)
 
   get items() {
     return this._items
