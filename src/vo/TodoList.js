@@ -8,10 +8,56 @@ class TodoList {
   _items = [];
   _date = "";
 
-  constructor() {
+  constructor(itmes, date) {
     makeObservable(this, {
       _items: observable,
     });
+    this._items = itmes;
+    this._date = date;
+  }
+
+  removeTodoItem(todoId) {
+    const targetTodoItemIndex = this._items.findIndex(
+      (todo) => todo.id === todoId
+    )
+    if (targetTodoItemIndex === -1) return;
+    this._items.splice(targetTodoItemIndex, 1);
+  }
+
+  pushTodoItem(todoItem) {
+    this._items.push(todoItem)
+  }
+
+  _equlalsDayFillter = (todoItem) => todoItem.equalsDayOfCreatedAt(this._date);
+
+  _notEqulalsDayFillter = (todoItem) => !todoItem.equalsDayOfCreatedAt(this._date);
+
+  _equalsDayAndCompletedFilter = (todoItem) => (todoItem.equalsDayOfCreatedAt(this._date) && todoItem.completed);
+
+  _notEqualsDayAndCompletedFilter = (todoItem) => (todoItem.equalsDayOfCreatedAt(this._date) && !todoItem.completed);
+
+  get equalsDayItems() {
+    return this._items.filter(this._equlalsDayFillter);
+  }
+
+  get notEqualsDayItems() {
+    return this._items.filter(this._notEqulalsDayFillter);
+  }
+
+  get equalsDayAndCompletedItems() {
+    return this._items.filter(this._equalsDayAndCompletedFilter)
+  }
+
+  get notEqualsDayAndCompletedItems() {
+    return this._items.filter(this._notEqualsDayAndCompletedFilter)
+  }
+
+  get items() {
+    return this._items
+  }
+
+  get date() {
+    return this._date
   }
 }
 
