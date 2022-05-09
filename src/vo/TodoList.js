@@ -50,7 +50,8 @@ class TodoList {
 
   get equalsDayAndNotCompletedItems() {
     return this._items.filter(this._equalsDayAndNotCompletedFilter)
-
+  }
+  
   get items() {
     return this._items
   }
