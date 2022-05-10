@@ -8,56 +8,58 @@ class TodoList {
   _items = [];
   _date = "";
 
-  constructor(itmes, date) {
+  constructor(items,date) {
     makeObservable(this, {
       _items: observable,
     });
-    this._items = itmes;
+    this._items = items;
     this._date = date;
   }
 
-  removeTodoItem(todoId) {
-    const targetTodoItemIndex = this._items.findIndex(
-      (todo) => todo.id === todoId
-    )
-    if (targetTodoItemIndex === -1) return;
-    this._items.splice(targetTodoItemIndex, 1);
+  removeTodoItem = (todoId) => {
+    const targetTodoItemIndex = this.items.findIndex(
+      todo => todo.id === todoId
+    );
+    if(targetTodoItemIndex === -1) return;
+    this.items.splice(targetTodoItemIndex,1);
   }
 
-  pushTodoItem(todoItem) {
-    this._items.push(todoItem)
+  pushTodoItem = (todoItem) => {
+    this._items.push(todoItem);
   }
 
-  _equlalsDayFillter = (todoItem) => todoItem.equalsDayOfCreatedAt(this._date);
+  _equalsDayFilter = (todoItem) => todoItem.equalsDayOfCreatedAt(this._date);
+  _notEqualsDayFilter = (todoItem) => !todoItem.equalsDayOfCreatedAt(this._date);
 
-  _notEqulalsDayFillter = (todoItem) => !todoItem.equalsDayOfCreatedAt(this._date);
+  _completedFilter = (todoItem) => todoItem.completed;
+  _notCompletedFilter = (todoItem) => !todoItem.completed;
 
-  _equalsDayAndCompletedFilter = (todoItem) => (todoItem.equalsDayOfCreatedAt(this._date) && todoItem.completed);
-
-  _equalsDayAndNotCompletedFilter = (todoItem) => (todoItem.equalsDayOfCreatedAt(this._date) && !todoItem.completed);
-
-  get equalsDayItems() {
-    return this._items.filter(this._equlalsDayFillter);
+  get notEqualsDayAndCompletedItems() {
+    return this._items.filter(this._notEqualsDayFilter).filter(this._completedFilter);
   }
 
-  get notEqualsDayItems() {
-    return this._items.filter(this._notEqulalsDayFillter);
+  get notEqualsDayAndNotCompletedItems() {
+    return this._items.filter(this._notEqualsDayFilter).filter(this._notCompletedFilter);
   }
 
   get equalsDayAndCompletedItems() {
-    return this._items.filter(this._equalsDayAndCompletedFilter)
+    return this.equalsDayItems.filter(this._completedFilter);
   }
 
   get equalsDayAndNotCompletedItems() {
-    return this._items.filter(this._equalsDayAndNotCompletedFilter)
-  }
-  
-  get items() {
-    return this._items
+    return this.equalsDayItems.filter(this._notCompletedFilter);
   }
 
-  get date() {
-    return this._date
+  get equalsDayItems() {
+    return this._items.filter(this._equalsDayFilter);
+  }
+
+  get notEqualsDayItems() {
+    return this._items.filter(this._notEqualsDayFilter)
+  }
+
+  get items() {
+    return this._items;
   }
 }
 
